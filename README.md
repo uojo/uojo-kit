@@ -105,6 +105,8 @@ let tid=setInterval(()=>{
 ```
 
 ## changeLog
+### 0.1.1
+- 文档补充
 ### 0.1.0
 - 初始化。提供方法：log 模块、BufferExec 类、DelayExec 类
 
