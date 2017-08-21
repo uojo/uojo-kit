@@ -1,5 +1,4 @@
 var chalk = require('chalk')
-var colors = require('colors');
 
 const show_level = (process.env.LOG_LEVEL==='product');
 
@@ -14,9 +13,9 @@ const handle = {
 		// this.log(2,stacks)
 		var tStr = stacks[2].match(/([^\)\\]*)\)$/)[1]
 		// this.log(tStr)
-		var a1 = [tStr.green]
+		var a1 = [ chalk.yellow(tStr) ]
 		// var data = Array.prototype.concat.call( arguments, a1 )
-		// this.log(12,data.length)
+		// handle.log(12,a1)
 		handle.log.apply(undefined, a1.concat( Array.prototype.slice.call( arguments, 0 ) ) )
 	},
 	clog : function(){
@@ -30,10 +29,24 @@ const handle = {
 		}else{
 			ops = {color:'white'}
 		}
-
-		let val = chalk[ops.color]
+		
+		// console.log(chalk.blue('Hello world!'));
+		// console.log( ops.color )
+		// console.log( chalk.keyword(ops.color)('hello','world') )
+		
+		let val = chalk.keyword(ops.color)
+		// let val = chalk[ops.color]
 		.apply(undefined, data.map(el=>{
-			return typeof el==="object"?JSON.stringify(el):el;
+			// console.log('>', el, JSON.stringify(el) )
+			if( el.constructor == Array){
+				
+			}else if( el.constructor == Object){
+				el = JSON.stringify(el)
+			}else{
+				
+			}
+			
+			return el;
 		}))
 		handle.log.call(undefined, val);
 	}
