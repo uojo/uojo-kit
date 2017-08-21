@@ -1,10 +1,11 @@
 // const log = require('./src/log');
 
 const handle = {
-	...require('./src/log'),
-	bufferExec:require('./src/bufferExec'),
-	delayExec:require('./src/delayExec')
+	BufferExec:require('./src/bufferExec'),
+	DelayExec:require('./src/delayExec')
 }
+
+Object.assign( handle, require('./src/log') )
 
 module.exports = handle
 
