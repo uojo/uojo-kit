@@ -2,7 +2,7 @@
 module.exports = function( delayTime = 0 ){
 	let map = {};
 	
-	// 回执，表示 exec_fn 已经结束
+	// 接收打击
 	this.hit = ( record )=>{
 		// 默认匿名记录
 		if(record===undefined){
