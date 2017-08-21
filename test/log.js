@@ -16,7 +16,15 @@ elog('string','hello ÖÐÎÄ')
 elog('object',da)
 elog('array',da.a.e)
 
-clog('red','red')
-clog('green','green')
-clog('yellow','yellow')
+
+const colors = ['black','red','green','yellow','blue','magenta','cyan','white','gray',
+// 'redBright','greenBright','yellowBright',// 'blueBright','magentaBright',
+// 'cyanBright','whiteBright'
+];
+
+for(let i in colors){
+	let name = colors[i]
+	clog(name,name)
+}
+
 // console.log('end')
