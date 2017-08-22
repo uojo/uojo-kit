@@ -30,6 +30,7 @@ eclog | 显示代码执行行号
 示例：
 ```
 uojoKit.clog('red','content')
+uojoKit.red('content') // 支持颜色：'black','red','green','yellow','blue','magenta','cyan','white','gray'
 uojoKit.elog('content')
 ```
 
@@ -105,6 +106,9 @@ let tid=setInterval(()=>{
 ```
 
 ## changeLog
+### 0.1.2
+- 修复显示 Error 对象
+- 方法 clog 新增快捷调用方式：clog.red('...') 等于 clog('red','...')
 ### 0.1.1
 - 文档补充
 ### 0.1.0
