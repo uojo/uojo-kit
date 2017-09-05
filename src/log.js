@@ -13,12 +13,17 @@ const handle = {
 		if( show_level )return;
 		// console.log.apply(undefined, arguments);
 		let err = new Error,
-				stacks = err.stack.split('\n');
-		// this.log(2,stacks)
+				stacks = err.stack.split('\n'),
+				stacksTgt = stacks[2].split('\\');
+		// handle.log(2,stacksTgt)
 		// console.log(3,this)
-		let tStr = stacks[2].match(/([^\)\\]*)\)$/)[1]
-		// this.log(tStr)
-		let a1 = [ chalk.keyword('magenta')(tStr) ]
+		let errStr = stacksTgt[stacksTgt.length-1].replace(/[^\w\d:\.]/g,'');
+		
+		let a1 =[]
+		if(errStr){
+			a1.push( chalk.keyword('magenta')(errStr) )
+		}
+		
 		// let data = Array.prototype.concat.call( arguments, a1 )
 		// handle.log(12,a1)
 		handle.log.apply( undefined, a1.concat( Array.prototype.slice.call( arguments, 0 ) ) )

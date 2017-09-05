@@ -106,6 +106,8 @@ let tid=setInterval(()=>{
 ```
 
 ## changeLog
+### 0.1.3
+- 修复 elog 显示行号的bug
 ### 0.1.2
 - 修复显示 Error 对象
 - 方法 clog 新增快捷调用方式：clog.red('...') 等于 clog('red','...')
