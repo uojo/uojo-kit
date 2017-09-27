@@ -106,6 +106,8 @@ let tid=setInterval(()=>{
 ```
 
 ## changeLog
+### 0.2.0
+- elog 显示事件触发的完整路径
 ### 0.1.3
 - 修复 elog 显示行号的bug
 ### 0.1.2

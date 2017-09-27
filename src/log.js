@@ -12,16 +12,17 @@ const handle = {
 	elog : function(){
 		if( show_level )return;
 		// console.log.apply(undefined, arguments);
-		let err = new Error,
-				stacks = err.stack.split('\n'),
-				stacksTgt = stacks[2].split('\\');
-		// handle.log(2,stacksTgt)
+		let err = new Error;
+		let	stacks = err.stack.split('\n');
+		let stacksLine = stacks[2].replace(/\s/g,"").replace(/\\/g,"/").replace(/[^\(]*\(/,"").replace(/\).*/,"").replace(/[^\w\d:\.\/]/g,'');
+		// let stacksTgt = stacks[2].split('\\');
+		// handle.log(stacksLine)
 		// console.log(3,this)
-		let errStr = stacksTgt[stacksTgt.length-1].replace(/[^\w\d:\.]/g,'');
+		// let errStr = stacksTgt[stacksTgt.length-1].replace(/[^\w\d:\.]/g,'');
 		
 		let a1 =[]
-		if(errStr){
-			a1.push( chalk.keyword('magenta')(errStr) )
+		if(stacksLine){
+			a1.push( chalk.keyword('magenta')(stacksLine+'\n') )
 		}
 		
 		// let data = Array.prototype.concat.call( arguments, a1 )
