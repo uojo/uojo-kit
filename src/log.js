@@ -1,5 +1,5 @@
 const chalk = require('chalk')
-const show_level = (process.env.LOG_LEVEL==='product');
+const log_hide = (process.env.LOG_ENV!=='debug');
 
 const insertSpace = ()=>{
 	
@@ -10,7 +10,7 @@ const handle = {
 		console.log.apply(undefined, arguments);
 	},
 	elog : function(){
-		if( show_level )return;
+		if( log_hide )return;
 		// console.log.apply(undefined, arguments);
 		let err = new Error;
 		let	stacks = err.stack.split('\n');
@@ -30,7 +30,7 @@ const handle = {
 		handle.log.apply( undefined, a1.concat( Array.prototype.slice.call( arguments, 0 ) ) )
 	},
 	clog : function(){
-		if( show_level )return;
+		// if( log_hide )return;
 		
 		// 设置颜色
 		let ops = arguments[0];

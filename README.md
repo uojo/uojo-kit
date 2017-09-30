@@ -106,6 +106,8 @@ let tid=setInterval(()=>{
 ```
 
 ## changeLog
+### 0.3.0
+- LOG_LEVEL 替换为 LOG_ENV，且值为 debug 时才会执行 elog
 ### 0.2.0
 - elog 显示事件触发的完整路径
 ### 0.1.3
