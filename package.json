@@ -3,6 +3,7 @@
   "version": "0.3.0",
   "description": "实用工具库",
   "main": "index.js",
+  "module": "index.js",
   "scripts": {
     "start": "nodemon test/index",
     "test:log": "nodemon test/log",

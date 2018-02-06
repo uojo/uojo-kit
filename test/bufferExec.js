@@ -1,13 +1,13 @@
 const {elog, clog, BufferExec} = require('../index')
 
-// 阻挡间隔内的队列任务
+// 闃绘尅闂撮殧鍐呯殑闃熷垪浠诲姟
 const fn1 = (cb)=>{
 	setTimeout(function(){
 		cb && cb()
 	},500)
 }
 
-// 队列异步执行
+// 闃熷垪寮傛鎵ц
 /* const bufferObj1 = new BufferExec({async:true});
 for(let i=0;i<2;i++){
 	bufferObj1.trigger( ()=>{
@@ -16,7 +16,7 @@ for(let i=0;i<2;i++){
 } */
 
 
-// 队列同步执行
+// 闃熷垪鍚屾鎵ц
 const bufferObj = new BufferExec({
 	runBy:'queue',
 	speedTaskEnter:0,

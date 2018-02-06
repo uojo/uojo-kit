@@ -1,6 +1,6 @@
 const {elog, clog, DelayExec} = require('../index')
 
-// 阻挡间隔内的队列任务
+// 闃绘尅闂撮殧鍐呯殑闃熷垪浠诲姟
 const delayobj = new DelayExec(40)
 
 module.exports = function(){
