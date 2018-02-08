@@ -27,14 +27,16 @@ module.exports = function( options ){
 	this.tasks = exec_queue;
 
 	// 将任务推送到队列
-	this.push = (exec_fn)=>{
-		if(!exec_fn) return;
+	this.push = function(){
+		var fn_body = arguments[0];
+		if(!fn_body) return;
 		
+		var fn_args = Array.prototype.slice.call(arguments,1);
 		if(delayExec && !delayExec.hit()){
 			return;
 		}
 		
-		exec_queue.push(exec_fn);
+		exec_queue.push({body:fn_body,args:fn_args});
 	}
 	
 	function openLock(){
@@ -49,16 +51,18 @@ module.exports = function( options ){
 			// 从队列取方法并执行
 			var tfn;
 			if(ops.nextPoint=='first'){
-				tfn = exec_queue[0]
+				tfn = exec_queue.shift();
 			}else if(ops.nextPoint=='last'){
-				tfn = exec_queue[qlen-1]
+				tfn = exec_queue.pop();
 			}
 
 			exec_lock = true;
 			if(ops.runBeforeClearTasks){
 				exec_queue = [];
 			}
-			tfn(openLock);
+			var tfn_args = [openLock].concat(tfn.args);
+			// elog(tfn_args)
+			tfn.body.apply(undefined,tfn_args);
 		}
 	},ops.heartTime);
 	
