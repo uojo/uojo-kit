@@ -35,37 +35,32 @@ uojoKit.elog('content')
 ```
 
 ### BufferExec(options)
-对单任务队列执行进行缓冲执行。简单的说，这个类可以收集需要执行的任务，按顺序执行。
+将大量需要执行的任务组成队列，按顺序或并发执行。
 
-options 参数：
+#### options 参数：
 
 字段 | 默认值 | 作用
 :---|:-------|:---
 nextPoint | first |下一个执行的任务是取队列中新（last）旧（first）
-speedTaskEnter | 0 |任务进入队列的最小时间间隔
-runBy | timeline |队列执行方式。`timeline`：时间轴，即当前任务执行完后取下一个任务后，在下一个任务执行前将当前队列中所有任务清空。`queue`：按队列顺序执行
+pushLimitMaxTime | 0 |任务进入队列的最小时间间隔
+runBeforeClearTasks | false | 队列执行方式。`timeline`：时间轴，即当前任务执行完后取下一个任务后，在下一个任务执行前将当前队列中所有任务清空。`queue`：按队列顺序执行
 
-方法：
-名称 | 作用
-:---|:-----
-trigger | 将任务推入执行队列，并触发该任务执行
-receipt | 回执当前任务执行完毕
+#### 方法：
+名称 | 参数 | 说明
+:---|:---|:-----
+push |function(next){} | 将任务推入待执行队列
 
 
 示例：
 ```
-const bufferQueue = new uojoKit.BufferExec({
-    runBy:'queue',
-    speedTaskEnter:0
-})
+const bufferQueue = new uojoKit.BufferExec();
 
 for(let i=0;i<5;i++){
-    bufferQueue.trigger((next)=>{
+    bufferQueue.push((next)=>{
+        console.log(i)
         setTimeout(()=>{
-            console.log(i)
-            next(); //执行下一个任务
+            next(); // 告知当前任务执行完毕，执行下一个任务
         })
-        
     })
 }
 ```
@@ -106,6 +101,8 @@ let tid=setInterval(()=>{
 ```
 
 ## changeLog
+### 0.4.0
+- 重写 bufferExec 方法。
 ### 0.3.0
 - LOG_LEVEL 替换为 LOG_ENV，且值为 debug 时才会执行 elog
 ### 0.2.0

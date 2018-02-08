@@ -1,12 +1,14 @@
 {
   "name": "uojo-kit",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "实用工具库",
   "main": "index.js",
   "module": "index.js",
   "scripts": {
     "start": "nodemon test/index",
     "test:log": "nodemon test/log",
+    "test:delayExec": "cross-env LOG_ENV=debug nodemon test/delayExec",
+    "test:bufferExec": "cross-env LOG_ENV=debug nodemon test/bufferExec",
     "test": "nodemon test/index"
   },
   "repository": {
@@ -27,7 +29,7 @@
   "homepage": "",
   "devDependencies": {
     "commander": "2.9.0",
-    "cross-env": "5.0.5",
+    "cross-env": "^5.0.5",
     "nodemon": "1.11.0"
   },
   "dependencies": {

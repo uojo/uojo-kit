@@ -9,67 +9,57 @@ runBy: 队列执行队列依照，timeline 时间轴、queue 队列
 
 module.exports = function( options ){
 	let exec_lock = false;
-	let exec_queue = [];
-	// let exec_fn = options.fn
+	var exec_queue = [];
 	let ops = Object.assign({
 		// 可以通过控制线程数，以实现并发执行
-		async:false,
+		// async:false,
+		heartTime:200,
 		nextPoint:'first',
-		runBy:'timeline',
-		speedTaskEnter:0, //任务进入队列的最小间隔时间
+		runBeforeClearTasks:false, // 每次执行任务时，是否清空队列
+		pushLimitMaxTime:0, //任务进入队列的最小间隔时间
 		
 	},options);
 	let delayExec;
-	if(ops.speedTaskEnter){
-		delayExec = new DelayExec(ops.speedTaskEnter)
+	if(ops.pushLimitMaxTime){
+		delayExec = new DelayExec(ops.pushLimitMaxTime)
 	}
 	
-	
-	// 触发
-	this.trigger = (exec_fn)=>{
+	this.tasks = exec_queue;
+
+	// 将任务推送到队列
+	this.push = (exec_fn)=>{
 		if(!exec_fn) return;
 		
-		if(ops.async){
-			exec_fn()
+		if(delayExec && !delayExec.hit()){
 			return;
 		}
-		// console.log('exec_lock',exec_lock)
 		
-		if(exec_lock){
-			if(delayExec && !delayExec.hit()){
-				return;
-			}
-			exec_queue.push(exec_fn)
-			return;
-		}
-		clog('gray','待执行队列数',exec_queue.length)
-		exec_lock = true;
-		if( ops.runBy ==='timeline' ){
-			clog('gray','清空队列')
-			// 执行前，清空队列
-			exec_queue=[];
-		}
-		clog('green','函数执行开始')
-		exec_fn( this.receipt )
-
+		exec_queue.push(exec_fn);
 	}
 	
-	// 回执，表示 exec_fn 已经结束
-	this.receipt = ()=>{
-		clog('green','函数执行回执')
-		exec_lock = false
-		// 检查在执行期间是否有队列进入
-		if( exec_queue.length>0 ){
-			let nextOne;
-			if( ops.nextPoint ==='first' ){
-				nextOne = exec_queue.shift()
-			}else if( ops.nextPoint ==='last' ){
-				nextOne = exec_queue.pop()
-			}
-			
-			clog('yellow','执行队列中下一个任务')
-			this.trigger( nextOne )
-		}
+	function openLock(){
+		exec_lock = false;
 	}
+	
+	// 从队列中取方法执行
+	setInterval(function(){
+		var qlen = exec_queue.length;
+		// console.log(qlen,exec_lock);
+		if(qlen && !exec_lock){
+			// 从队列取方法并执行
+			var tfn;
+			if(ops.nextPoint=='first'){
+				tfn = exec_queue[0]
+			}else if(ops.nextPoint=='last'){
+				tfn = exec_queue[qlen-1]
+			}
+
+			exec_lock = true;
+			if(ops.runBeforeClearTasks){
+				exec_queue = [];
+			}
+			tfn(openLock);
+		}
+	},ops.heartTime);
 	
 } 

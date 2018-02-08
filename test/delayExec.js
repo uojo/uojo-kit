@@ -1,12 +1,13 @@
 const {elog, clog, DelayExec} = require('../index')
 
 // 阻挡间隔内的队列任务
-const delayobj = new DelayExec(40)
+const delayobj = new DelayExec(20)
 
-module.exports = function(){
+const runTest = function(){
 	let test = {
-		total:15,
-		s:0,e:0
+		total:4,
+		s:0,
+		e:0
 	};
 	
 	let count = test.total;
@@ -16,15 +17,20 @@ module.exports = function(){
 			elog(test)
 			return;
 		}
-		clog('green',count)
+		clog('red',"index >",count)
 		count--;
 		if( delayobj.hit('app') ){
-			elog(Date.now())
+			clog('green',"enter >",count)
+			// elog(Date.now())
 			test.s++
 		}else{
 			clog('yellow','wait a moment')
 			test.e++
 		}
 		
-	},30)
+	},10)
 }
+
+runTest();
+
+module.exports = runTest
