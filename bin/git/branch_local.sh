@@ -10,10 +10,9 @@ function barch_delete(){
 }
 
 function batch_delete_branch_merged(){
-  branchs_merged_count=`git branch --merged|grep -c $1`
+  branchs_merged_count=`git branch --merged|grep -c -v "$1"`
   echo "已匹配分支数：$branchs_merged_count"
-  branchs_merged=`git branch --merged|grep $1`
-  echo $branchs_merged
+  branchs_merged=`git branch --merged|grep -v "$1"`
   # 遍历执行删除分支指令
   for branch in $branchs_merged;do
   barch_delete $branch
@@ -22,6 +21,8 @@ function batch_delete_branch_merged(){
 # batch_delete_branch_merged "\s\st\d" # 正则匹配
 
 branch_name_current=`git branch | grep "*"`
-git checkout master
-batch_delete_branch_merged "-v master"
-git checkout ${branch_name_current/* /}
+branch_name_cur=${branch_name_current/\* /}
+branch_name_safe="master\|develop\|${branch_name_cur}"
+# git checkout master
+batch_delete_branch_merged $branch_name_safe
+# git checkout ${branch_name_cur}
