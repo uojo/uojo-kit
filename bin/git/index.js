@@ -5,8 +5,8 @@ const Process = require("child_process");
 // 配置cli
 program
   .version("0.0.1")
-  .option("--lbbd", "Git local branch batch delete")
-  .option("--rbbd", "Git remote branch batch delete")
+  .option("--bdlb", "Git local branch batch delete")
+  .option("--bdrb", "Git remote branch batch delete")
   .option("--cmr", "Git create MR")
   .option("-b, --branch <name>", "Git branch name")
   .option("-t, --title <content>", "Git MR title")
@@ -14,8 +14,8 @@ program
 
 // console.log("program", program);
 const cmdExecInfo = {
-  lbbd: "./branch_local.sh",
-  rbbd: "./branch_remote.sh"
+  bdlb: "./branch_local.sh",
+  bdrb: "./branch_remote.sh"
 };
 
 const execFile = (cmd,args=null) => {
